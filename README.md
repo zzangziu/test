@@ -1,4 +1,3 @@
-# git-test
 ## 오픈소스SW개론 12223764 윤지우 과제 보고서
 ### Bash Shell script를 이용해 사용자가 원하는 영화 관련 정보를 제공하는 프로그램 코딩
 
@@ -101,21 +100,44 @@ fi
 ```
 
 7. 유저 아이디를 이용해 해당 유저가 평가한 모든 영화를 출력해주는 기능
-사용자에게 user id를 입력받고 awk를 이용해 해당 유저가 평가한 영화를 찾아내고 sort로 오름차순을 완성하는 것까지는 구현했으나, "|"를 이용해 구분하여 출력하고, 오름차순으로 item 파일에 접근해서 10개의 movie id와 movie title을 구현하는 데에는 실패하였다.
+사용자에게 user id를 입력받고 awk를 이용해 해당 유저가 평가한 영화를 찾아내고 sort로 오름차순으로 정렬하여 user_movie에 저장하고, 이대로 출력하면 한 줄에 한 movie id가 나오기 때문에 tr을 이용해서 '\n' 대신 '|'을 사용하여 출력해 주었다. 또한 user_movie로 for문을 돌려 movie id 기준 상위 10개의 movie id에 대해 u.item에서 movie id와 movie title을 가져와 형식에 맞게 출력하도록 하였다. 
 
 ```linux
 7)
-echo "Please enter the 'user id'(1~943):"
+echo "Please enter the 'user id' (1~943):"
 read user_id
 
-awk -F '\t' -v id="$user_id" '$1 == id { print $2 }' u.data | sort -n
+user_movie=$(awk -F '\t' -v id="$user_id" '$1 == id { print $2 }' u.data | sort -n)
+
+echo "$user_movie" | tr '\n' '|'
+echo
+echo
+
+movie_list=$(echo "$user_movie" | head -n 10)
+
+for movie_id in $movie_list; do
+movie_inf=$(awk -F '|' -v id="$movie_id" '$1 == id { print $1, $2 }' u.item)
+echo "$movie_inf"
+done
 ;;
 ```
 
-8. case, while문 마무리
+8. 사용자 중 20대 프로그래머가 평가한 영화만을 찾아 20대 프로그래머의 영화 평점 평균을 출력하는 기능
+사용자가 y를 입력할 경우 cond_user에 조건에 맞는 20대 프로그래머의 user_id를 u.user 파일에서 찾아 저장하고, for 문을 돌려 u.data 파일에서 해당 user id가 평가한 영화의 rating을 이용해 평점 평균을 소수점 5번째 자리까지 출력해 주었다.
 ```Linux
-esac
-done 
+8)
+echo "Do you want to get the average 'rating of movies rated by users with 'age' between 20 land 29 and 'occupation' as 'programmer'? (y/n)"
+read ans
 
+if [ "$ans" = "y" ]; then
+cond_user=$(awk -F "|" '$2 >= 20 && $2 <= 29 && $4 == "programmer" {print $1}' u.user)
+for user_id in $cond_user
+do
+awk -v u_id="$user_id" -F "\t" '$1 == u_id { print $2, $3 }' u.data
+done | awk '{ arr[$1]+=$2; cnt[$1]++ } END {for (i in arr) { printf "%s %.5f\n", i, arr[i]/cnt[i]}}' | sort -n
+fi
+;;
+esac
+done
 ```
 
