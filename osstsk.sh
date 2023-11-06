@@ -28,7 +28,7 @@ case $choice in
 echo "Please enter the 'movie id'(1~1682):"
 read movie_id
 
-awk -F '|' -v m_id="$movie_id" '{ if ($1 == m_id) print $0 }' u.item
+awk -F '|' -v mv_id="$movie_id" '{ if ($1 == mv_id) print $0 }' u.item
 ;;
 2)
 echo "Do you want to get the data of 'action' genre movies from 'u.item'?(y/n):"
@@ -39,11 +39,12 @@ then
 awk -F '|' '$7 == 1 { print $1, $2 }' u.item | sort -n -k1,1 | head -10
 fi
 ;;
+
 3)
 echo "Please enter the 'movie id'(1~1682):"
 read movie_id
 
-awk -F '\t' -v id="$movie_id" '$2 == id { sum += $3; count++ } END { if (count > 0) { avg = sum / count; printf "average rating of $movie_id: %.5f\n", avg; }}' u.data
+awk -F '\t' -v mv_id="$movie_id" '$2 == mv_id { sum += $3; cnt++ } END { if (cnt > 0) { avg = sum / cnt; printf "average rating of $movie_id: %.5f\n", avg; }}' u.data
 ;;
 
 4)
@@ -77,11 +78,35 @@ fi
 ;;
 
 7)
-echo "Please enter the 'user id'(1~943):"
+echo "Please enter the 'user id' (1~943):"
 read user_id
 
-awk -F '\t' -v id="$user_id" '$1 == id { print $2 }' u.data | sort -n
+user_movie=$(awk -F '\t' -v id="$user_id" '$1 == id { print $2 }' u.data | sort -n)
+
+echo "$user_movie" | tr '\n' '|'
+echo
+echo
+
+movie_list=$(echo "$user_movie" | head -n 10)
+
+for movie_id in $movie_list; do
+movie_inf=$(awk -F '|' -v id="$movie_id" '$1 == id { print $1, $2 }' u.item)
+echo "$movie_inf"
+done
 ;;
 
+8)
+echo "Do you want to get the average 'rating of movies rated by users with 'age' between 20 land 29 and 'occupation' as 'programmer'? (y/n)"
+read ans
+
+if [ "$ans" = "y" ]; then
+cond_user=$(awk -F "|" '$2 >= 20 && $2 <= 29 && $4 == "programmer" {print $1}' u.user)
+for user_id in $cond_user
+do
+awk -v u_id="$user_id" -F "\t" '$1 == u_id { print $2, $3 }' u.data
+done | awk '{ arr[$1]+=$2; cnt[$1]++ } END {for (i in arr) { printf "%s %.5f\n", i, arr[i]/cnt[i]}}' | sort -n
+fi
+;;
 esac
 done 
+
