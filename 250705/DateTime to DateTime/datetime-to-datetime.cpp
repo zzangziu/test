@@ -18,6 +18,10 @@ int main() {
         min+=(24-12)*60+49;
     }
     else if(A==11) {
+        if(B<11 || (B==11 && C<11)) {
+            cout << "-1";
+            return 0;
+        }
         if(C>=11) {
             min+=C-11;
             min+=(B-11)*60;
