@@ -20,14 +20,16 @@ int main() {
 
     int w[200000] = {0};
     int b[200000] = {0};
-    bool wOrB[200000] = {false};
+    bool wh[200000] = {false};
+    bool bl[200000] = {false};
 
     int cur = 100000;
     for(int i = 0; i < n; i++) {
         if(dir[i]=='R') {
             for(int j = 0; j < x[i]; j++) {
                 b[cur]++;
-                wOrB[cur]=true;
+                bl[cur]=true;
+                wh[cur]=false;
                 cur++;
             }
             cur--;
@@ -35,7 +37,8 @@ int main() {
         else {
             for(int j = 0; j < x[i]; j++) {
                 w[cur]++;
-                wOrB[cur]=false;
+                wh[cur]=true;
+                bl[cur]=false;
                 cur--;
             }
             cur++;
@@ -45,12 +48,8 @@ int main() {
 
     for(int i = 0; i < 200000; i++) {
         if(w[i] >= 2 && b[i] >= 2) gray++;
-        else if(b[i] > w[i]) black++;
-        else if(b[i] < w[i]) white++;
-        else if(b[i]==1 && w[i]==1) {
-            if(wOrB[i]) black++;
-            else if(!wOrB[i]) white++;
-        }
+        else if(wh[i]) white++;
+        else if(bl[i]) black++;
     }
 
     cout << white << " " << black << " " << gray;
