@@ -13,7 +13,7 @@ int main() {
     }
 
     // Please write your code here.
-    int cnt[100] = {};
+    int cnt[105] = {};
     int max = 0;
     for(int i = 0; i < n; i++) {
         for(int j = x1[i]; j <= x2[i]+1; j++) {
