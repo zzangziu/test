@@ -22,12 +22,14 @@ int main() {
 
     for(int i=m1+1; i<m2; i++) {
         sub+=month[i];
-    }
-    sub+=month[m1]-d1+d2;
+    } // 날짜 수 더하기
+    if(m1==m2) sub=d2-d1;
+    else sub+=month[m1]-d1+d2;
     
     int cnt=sub/7;
 
     if(sub%7>=day) cnt++;
+
 
     cout << cnt;
 
