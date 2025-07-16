@@ -15,8 +15,8 @@ int main() {
 
     // Please write your code here.
 
-    int A[1000];
-    int B[1000];
+    int A[1005];
+    int B[1005];
     int curA = 0;
     int curB = 0;
     int velA = 0;
@@ -37,11 +37,11 @@ int main() {
         }
     }
 
-    int T = min(curA, curB);
+    
     int cnt = 0;
     bool isA = false;
     bool isB = false;
-    for(int i = 0; i < T; i++) {
+    for(int i = 0; i < curA; i++) {
         if(A[i] > B[i]) {
             if(isB) cnt++;
             isA = true;
