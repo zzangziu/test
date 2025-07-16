@@ -15,8 +15,8 @@ int main() {
 
     // Please write your code here.
 
-    int A[1005];
-    int B[1005];
+    int A[1000000];
+    int B[1000000];
     int curA = 0;
     int curB = 0;
     int velA = 0;
@@ -37,7 +37,6 @@ int main() {
         }
     }
 
-    
     int cnt = 0;
     bool isA = false;
     bool isB = false;
