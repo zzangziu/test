@@ -37,10 +37,11 @@ int main() {
         }
     }
 
+    int T = min(curA, curB);
     int cnt = 0;
     bool isA = false;
     bool isB = false;
-    for(int i = 0; i < curA; i++) {
+    for(int i = 0; i < T; i++) {
         if(A[i] > B[i]) {
             if(isB) cnt++;
             isA = true;
