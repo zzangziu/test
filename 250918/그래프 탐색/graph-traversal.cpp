@@ -21,6 +21,7 @@ void DFS(int vertex) {
 int main() {
     cin >> n >> m;
 
+    visited[1] = true;
     for (int i = 0; i < m; i++) {
         int from, to;
         cin >> from >> to;
@@ -29,7 +30,7 @@ int main() {
     }
 
     DFS(1);
-    cout << --cnt;
+    cout << cnt;
 
     // Please write your code here.
 
