@@ -3,8 +3,8 @@
 using namespace std;
 
 int n, m;
-bool grid[100][100];
-bool visited[100][100] = {false};
+bool grid[101][101];
+bool visited[101][101] = {false};
 bool flag = false;
 
 void DFS(int x, int y) {
