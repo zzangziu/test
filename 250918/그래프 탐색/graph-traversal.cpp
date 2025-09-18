@@ -5,8 +5,8 @@ using namespace std;
 int n, m;
 int cnt=0;
 int from[10000], to[10000];
-bool graph[10000][10000];
-bool visited[10000];
+bool graph[10000][10000] = {false};
+bool visited[10000] = {false};
 
 void DFS(int vertex) {
     for(int cur_v = 1; cur_v <= n; cur_v++) {
