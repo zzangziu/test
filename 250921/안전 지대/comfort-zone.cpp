@@ -32,7 +32,7 @@ int main() {
 
     K = 0;
     int max = 0;
-    int maxK = 0;
+    int maxK = 1;
     for(K = 1; K <= maxH; K++) {
         for (int i=0;i<N;++i) {
             for (int j=0;j<M;++j) {
