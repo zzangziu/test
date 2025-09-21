@@ -11,53 +11,21 @@ int people;
 int city[625]={0};
 
 void DFS(int x, int y) {
-    bool flag = false;
-    if(!visited[x][y]) {
-        visited[x][y]=true;
-        people++;
-    }
+    // 1) 범위/조건 체크
+    if (x < 0 || y < 0 || x >= n || y >= n) return;
+    if (!grid[x][y] || visited[x][y]) return;
 
-    if(grid[x+1][y] && !visited[x+1][y]) {
-        visited[x+1][y]=true;
-        people++;
-        flag = true;
-        DFS(x+1, y);
-    }
-    if(grid[x-1][y] && !visited[x-1][y]) {
-        visited[x-1][y]=true;
-        people++;
-        flag = true;
-        DFS(x-1, y);
-    }
-    if(grid[x][y+1] && !visited[x][y+1]) {
-        visited[x][y+1]=true;
-        people++;
-        flag = true;
-        DFS(x, y+1);
-    }
-    if(grid[x][y-1] && !visited[x][y-1]) {
-        visited[x][y-1]=true;
-        people++;
-        flag = true;
-        DFS(x, y-1);
-    }
-    
-    if(x >= n || y >= n) {
-        if(people != 0) {
-            city[cnt]=people;
-            cnt++;
-        }
-        return;
-    }
-    if (!flag) {
-        if(people != 0) {
-            cout << x << " " << y << '\n';
-            city[cnt]=people;
-            cnt++;
-        }
-        return;
-    }
- }
+    // 2) 현재 칸 방문 처리 (한 번만)
+    visited[x][y] = true;
+    people++;
+
+    // 3) 네 방향으로 퍼지기 (이웃을 미리 방문표시/증가 X)
+    DFS(x + 1, y);
+    DFS(x - 1, y);
+    DFS(x, y + 1);
+    DFS(x, y - 1);
+}
+
 
 int main() {
     cin >> n;
@@ -74,7 +42,7 @@ int main() {
             if(grid[i][j] && !visited[i][j]) {
                 people = 0;
                 DFS(i, j);
-
+                city[cnt++]=people;
             }
         }
     }
