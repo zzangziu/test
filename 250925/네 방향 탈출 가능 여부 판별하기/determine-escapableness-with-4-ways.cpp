@@ -54,11 +54,8 @@ int main() {
     }
 
     // Please write your code here.
-    for(int i = 0; i<n; i++) {
-        for(int j = 0; j<m; j++) {
-            if(!visited[i][j] && a[i][j]) q.push(make_pair(i, j));
-        }
-    }
+    q.push(make_pair(0, 0));
+    visited[0][0]=true;
     BFS();
     if(visited[n-1][m-1]) cout << "1";
     else cout << "0";
