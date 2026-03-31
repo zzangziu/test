@@ -7,7 +7,7 @@ int main() {
     cin >> n >> m;
     vector<vector<int>> v(n, vector<int>(n));
     if(m==1) {
-        cout << n*n;
+        cout << n*2;
         return 0;
     }
     for(int i=0; i<n; i++) {
