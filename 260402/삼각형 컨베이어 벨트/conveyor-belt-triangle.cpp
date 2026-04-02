@@ -10,7 +10,7 @@ int main() {
     for(int i = 0; i<n*3; i++) {
         cin >> v[i];
     }
-    t %= 9;
+    t = t % (n*3);
 
     for(int i =0; i<t; i++) {
         for(int j=n*3; j>=0; j--) {
